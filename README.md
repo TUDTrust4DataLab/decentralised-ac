@@ -1,5 +1,5 @@
-# CIPHER Just in Time Access Control Interface
-![CIPHER](https://img.shields.io/badge/cipher-121011?style=for-the-badge&logo=CIPHER&logoColor=black)
+# SDDK-AC Policy Management Framework
+![SDDK-AC](https://img.shields.io/badge/cipher-121011?style=for-the-badge&logo=CIPHER&logoColor=black)
 ![Python](https://img.shields.io/badge/python-121011?style=for-the-badge&logo=python&logoColor=ffdd54)
 ![Flask](https://img.shields.io/badge/flask-%23121011.svg?style=for-the-badge&logo=flask&logoColor=white)
 ![Web3](https://img.shields.io/badge/web3-121011?style=for-the-badge&logo=web3.js&logoColor=white)
@@ -10,33 +10,32 @@
 ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)
 
 This project extends the ExtremeXP Access Control module for use in the CIPHER project,
-providing an interface for translating XACML policies into Solidity smart contracts for EVM-compatible
-blockchains or Go chaincode for Hyperledger Fabric.
+providing an interface for translating policies into Go chaincode for Hyperledger Fabric.
 The module's key features include:
 
 - Decentralized access control layer.
 - Blockchain abstraction layer.
-- Translating XACML policies into Solidity smart contracts or Go chaincode.  
+- Translating eFLINT specifications into Solidity smart contracts or Go chaincode.  
 - Deploying the generated policies onto the target blockchain.
 - Manages the lifecycle of the policies and their associated smart contracts.
 - Provides a RESTful API for managing policies and their associated smart contracts.
 - Provides a Swagger UI for interacting with the API.
 
-> Note: The translator project is based on the [XACML](https://www.oasis-open.org/committees/xacml/) standard 
-and supports policy generation in [Solidity](https://soliditylang.org/) for EVM-compatible blockchains and Go for
-Hyperledger Fabric.
+> **Note:** The Normative Policy Translator requires [eFLINT](https://gitlab.com/eflint/haskell-implementation) to be installed and available in your system's PATH.
+
+> For installation instructions, translator setup, and steps to reproduce the experiments, refer to the [Normative Policy Translator — Setup and Testing guide](policy_translator/README.md).
 
 ---
 ## Architecture
-
-#### The Access Control Interface Architecture (v1.0.0)
-![Access Control Interface Architecture](./docs/CIPHER-PMF4DAC.png "Access Control Interface Architecture")
 
 ---
 
 #### Project Architecture (v1.0.0)
 
 ![Project Architecture](./docs/ExtremeXP-ABAC-FullArch.png "Project Architecture")
+
+#### Translator Architecture
+![Translator Architecture Diagram](./docs/CIPHER-Translator.png "Translator Architecture Diagram")
 
 ---
 
