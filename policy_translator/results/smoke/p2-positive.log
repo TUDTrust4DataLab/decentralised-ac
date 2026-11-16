@@ -1,0 +1,61 @@
+New type accepted-terms
+New type admission-approved
+New type admission-prerequisites-met
+New type admitted
+New type approve-admission
+New type asset
+New type authorise-step
+New type authorised-purpose
+New type controls
+New type operating-conditions-met
+New type operation
+New type operation-purpose
+New type party
+New type purpose
+New type request-access
+New type session
+New type session-purpose
+New type step-executed
+New type step-permitted
+New type suspend-session
+#2 > +party("D")
+#3 > +party("C")
+#4 > +asset("maintenance-data")
+#5 > +purpose("predictive-maintenance")
+#6 > +session("job-001")
+#7 > +operation("analysis-001")
+#8 > #8 > +controls(party("D"),asset("maintenance-data"))
+#9 > +accepted-terms(party("C"),asset("maintenance-data"),session("job-001"))
+#10 > +authorised-purpose(party("D"),asset("maintenance-data"),purpose("predictive-maintenance"))
+#11 > +admission-prerequisites-met(party("D"),party("C"),asset("maintenance-data"),purpose("predictive-maintenance"),session("job-001"))
++approve-admission(party("D"),party("C"),asset("maintenance-data"),purpose("predictive-maintenance"),session("job-001"))
++session-purpose(session("job-001"),purpose("predictive-maintenance"))
+#12 > #12 > executed transition: 
+approve-admission(party("D"),party("C"),asset("maintenance-data"),purpose("predictive-maintenance"),session("job-001")) (ENABLED)
++request-access(party("C"),party("D"),asset("maintenance-data"),purpose("predictive-maintenance"),session("job-001"))
++admission-approved(party("D"),party("C"),asset("maintenance-data"),purpose("predictive-maintenance"),session("job-001"))
+#13 > executed transition: 
+request-access(party("C"),party("D"),asset("maintenance-data"),purpose("predictive-maintenance"),session("job-001")) (ENABLED)
++admitted(party("C"),asset("maintenance-data"),purpose("predictive-maintenance"),session("job-001"))
+#14 > #14 > +suspend-session(party("D"),party("C"),asset("maintenance-data"),session("job-001"))
++suspend-session(party("D"),party("D"),asset("maintenance-data"),session("job-001"))
++operating-conditions-met(party("D"),asset("maintenance-data"),session("job-001"))
+#15 > +authorise-step(party("C"),party("D"),asset("maintenance-data"),purpose("predictive-maintenance"),session("job-001"),operation("analysis-001"))
++step-permitted(party("D"),party("C"),asset("maintenance-data"),purpose("predictive-maintenance"),session("job-001"),operation("analysis-001"))
++operation-purpose(operation("analysis-001"),purpose("predictive-maintenance"))
+#16 > #16 > query successful
+#17 > #17 > executed transition: 
+authorise-step(party("C"),party("D"),asset("maintenance-data"),purpose("predictive-maintenance"),session("job-001"),operation("analysis-001")) (ENABLED)
++step-executed(party("C"),asset("maintenance-data"),session("job-001"),operation("analysis-001"))
+#18 > #18 > query successful
+#19 > #19 > executed transition: 
+suspend-session(party("D"),party("C"),asset("maintenance-data"),session("job-001")) (ENABLED)
+~authorise-step(party("C"),party("D"),asset("maintenance-data"),purpose("predictive-maintenance"),session("job-001"),operation("analysis-001"))
+~suspend-session(party("D"),party("C"),asset("maintenance-data"),session("job-001"))
+~step-permitted(party("D"),party("C"),asset("maintenance-data"),purpose("predictive-maintenance"),session("job-001"),operation("analysis-001"))
+~suspend-session(party("D"),party("D"),asset("maintenance-data"),session("job-001"))
+-operating-conditions-met(party("D"),asset("maintenance-data"),session("job-001"))
+#20 > #20 > query failed
+#21 > query failed
+#22 > query successful
+#23 > #23 > 

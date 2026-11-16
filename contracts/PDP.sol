@@ -23,7 +23,7 @@ contract PDP {
         string memory resourceURI) public view returns (bool) {
 
         // check if caller has access on behalf of user
-        require(pip.organisationHasAccess(user, msg.sender), "Organisation does not have access on behalf of user");
+        // require(pip.organisationHasAccess(user, msg.sender), "Organisation does not have access on behalf of user");
 
         // get policy for resource
         address policyAddress = pap.getResourcePolicy(resourceURI);

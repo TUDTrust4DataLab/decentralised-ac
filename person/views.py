@@ -2,10 +2,8 @@ from flask import request
 from flask_restx import Namespace, Resource
 from requests import HTTPError
 
+from access_control.authentication.factory import create_authentication_handler
 from api import settings
-from blockchain_interface.helpers.utils import transaction_to_dict
-from blockchain_interface.interfaces.ABACContracts.PIP import PolicyInformationPoint
-from blockchain_interface.interfaces.HyperledgerBesu import HyperledgerBesu
 from keycloak_interface.errors import KeycloakACError, MissingTokenError
 from keycloak_interface.keycloakInterface import KeycloakInterface
 from keycloak_interface.utils.functions import get_keycloak_user, get_keycloak_user_by_email, \
@@ -26,15 +24,41 @@ keycloak_interface = KeycloakInterface(
     client_secret_key=settings.KEYCLOAK_CONFIG.get('KEYCLOAK_CLIENT_SECRET_KEY')
 )
 
-evm_interface_instance = HyperledgerBesu(settings.BLOCKCHAIN_CONFIG.get('BLOCKCHAIN_RPC_URL')).connect(
-    settings.BLOCKCHAIN_CONFIG.get('BLOCKCHAIN_PRIVATE_KEY')
-)
+def create_evm_pip():
+    if settings.ACCESS_CONTROL_BACKEND != 'evm':
+        return None
 
-PIPSmartContract = PolicyInformationPoint(
-    evm_interface_instance,
-    settings.BLOCKCHAIN_CONFIG.get('POLICY_INFORMATION_POINT_ADDRESS'),
-    f"{settings.BLOCKCHAIN_CONFIG.get('BLOCKCHAIN_CONTRACTS_ROOT_PATH')}/PIP.sol"
-).load()
+    from blockchain_interface.interfaces.ABACContracts.PIP import (
+        PolicyInformationPoint
+    )
+    from blockchain_interface.interfaces.HyperledgerBesu import (
+        HyperledgerBesu
+    )
+
+    evm_interface = HyperledgerBesu(
+        settings.BLOCKCHAIN_CONFIG.get(
+            'BLOCKCHAIN_RPC_URL'
+        )
+    ).connect(
+        settings.BLOCKCHAIN_CONFIG.get(
+            'BLOCKCHAIN_PRIVATE_KEY'
+        )
+    )
+
+    return PolicyInformationPoint(
+        evm_interface,
+        settings.BLOCKCHAIN_CONFIG.get(
+            'POLICY_INFORMATION_POINT_ADDRESS'
+        ),
+        (
+            f"{settings.BLOCKCHAIN_CONFIG.get(
+                'BLOCKCHAIN_CONTRACTS_ROOT_PATH'
+            )}/PIP.sol"
+        ),
+    ).load()
+
+
+PIPSmartContract = create_evm_pip()
 
 
 @api.route("/login")
@@ -218,20 +242,46 @@ class PersonView(Resource):
             # TODO: integrate with the blockchain to update the user groups
             if payload.get('groups') and user_wallet_address:
                 # Add groups to user in the PIP
-                for group in payload.get('groups'):
-                    tx = PIPSmartContract.add_group_to_user(user_wallet_address, group)
-                    payload['transactions'].append({
-                        'group': group,
-                        'transaction': transaction_to_dict(tx)
-                    })
+                if (
+                        settings.ACCESS_CONTROL_BACKEND == 'evm'
+                        and payload.get('groups')
+                        and user_wallet_address
+                ):
+                    from blockchain_interface.helpers.utils import (
+                        transaction_to_dict
+                    )
+
+                    for group in payload.get('groups'):
+                        tx = PIPSmartContract.add_group_to_user(
+                            user_wallet_address,
+                            group,
+                        )
+
+                        payload['transactions'].append({
+                            'group': group,
+                            'transaction': transaction_to_dict(tx),
+                        })
 
             # TODO: integrate with the blockchain to update the user role
             if payload.get('role') and user_wallet_address:
-                tx = PIPSmartContract.set_user_role_attribute(user_wallet_address, payload.get('role'))
-                payload['transactions'].append({
-                    'role': payload.get('role'),
-                    'transaction': transaction_to_dict(tx)
-                })
+                if (
+                        settings.ACCESS_CONTROL_BACKEND == 'evm'
+                        and payload.get('role')
+                        and user_wallet_address
+                ):
+                    from blockchain_interface.helpers.utils import (
+                        transaction_to_dict
+                    )
+
+                    tx = PIPSmartContract.set_user_role_attribute(
+                        user_wallet_address,
+                        payload.get('role'),
+                    )
+
+                    payload['transactions'].append({
+                        'role': payload.get('role'),
+                        'transaction': transaction_to_dict(tx),
+                    })
 
             return payload, 200
         except MissingTokenError as e:

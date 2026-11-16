@@ -1,0 +1,34 @@
+
+Fact admission-approved
+    Identified by provider * compute-provider * resource * intended-purpose * job
+
+Fact admitted
+    Identified by compute-provider * resource * intended-purpose * job
+
+Fact admission-prerequisites-met
+    Identified by provider * compute-provider * resource * intended-purpose * job
+    Holds when controls(provider, resource)
+        && accepted-terms(compute-provider, resource, job)
+        && session-purpose(job, intended-purpose)
+        && authorised-purpose(provider, resource, intended-purpose)
+
+Act approve-admission
+    Actor provider
+    Recipient compute-provider
+    Related to resource, intended-purpose, job
+    Creates admission-approved(
+        provider, compute-provider, resource, intended-purpose, job)
+    Holds when controls(provider, resource)
+        && admission-prerequisites-met(
+            provider, compute-provider, resource, intended-purpose, job)
+
+Act request-access
+    Actor compute-provider
+    Recipient provider
+    Related to resource, intended-purpose, job
+    Creates admitted(
+        compute-provider, resource, intended-purpose, job)
+    Holds when admission-prerequisites-met(
+        provider, compute-provider, resource, intended-purpose, job)
+        && admission-approved(
+            provider, compute-provider, resource, intended-purpose, job)

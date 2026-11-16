@@ -1,0 +1,35 @@
+{
+  "policy": "P1",
+  "scenarios": [
+    {
+      "id": "P1-T01",
+      "file": "positive.txt",
+      "expected_queries": [false, true, true]
+    },
+    {
+      "id": "P1-T02",
+      "file": "missing-approval.txt",
+      "expected_queries": [false, false]
+    },
+    {
+      "id": "P1-T03",
+      "file": "missing-terms.txt",
+      "expected_queries": [false, false]
+    },
+    {
+      "id": "P1-T04",
+      "file": "wrong-purpose.txt",
+      "expected_queries": [false, false]
+    },
+    {
+      "id": "P1-T05",
+      "file": "wrong-session.txt",
+      "expected_queries": [false, false]
+    },
+    {
+      "id": "P1-T06",
+      "file": "unauthorised-approval.txt",
+      "expected_queries": [false, false]
+    }
+  ]
+}

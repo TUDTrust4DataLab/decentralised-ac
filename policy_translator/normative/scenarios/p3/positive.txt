@@ -1,0 +1,33 @@
+
++party("D")
++party("C")
++asset("maintenance-data")
++purpose("predictive-maintenance")
++session("job-001")
++output("report-001")
+
++controls("D", "maintenance-data")
++accepted-terms("C", "maintenance-data", "job-001")
++authorised-purpose("D", "maintenance-data", "predictive-maintenance")
++session-purpose("job-001", "predictive-maintenance")
+
+approve-admission("D", "C", "maintenance-data", "predictive-maintenance", "job-001")
+request-access("C", "D", "maintenance-data", "predictive-maintenance", "job-001")
+
+?output-release-eligible("D", "C", "maintenance-data", "report-001", "predictive-maintenance", "job-001")
+
+register-output("C", "D", "maintenance-data", "report-001", "predictive-maintenance", "job-001")
+
+?produced-output("C", "maintenance-data", "report-001", "job-001")
+?output-release-eligible("D", "C", "maintenance-data", "report-001", "predictive-maintenance", "job-001")
+?output-release-approved("D", "C", "maintenance-data", "report-001", "predictive-maintenance", "job-001")
+
+approve-release("D", "C", "maintenance-data", "report-001", "predictive-maintenance", "job-001")
+
+?output-release-approved("D", "C", "maintenance-data", "report-001", "predictive-maintenance", "job-001")
+
+release-output("C", "D", "maintenance-data", "report-001", "predictive-maintenance", "job-001")
+
+?output-released("C", "maintenance-data", "report-001", "predictive-maintenance", "job-001")
+
+:quit

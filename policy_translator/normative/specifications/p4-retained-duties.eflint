@@ -1,0 +1,66 @@
+
+Duty deletion-evidence-duty
+    Holder compute-provider
+    Claimant provider
+    Related to resource, job
+
+Fact deletion-evidence-submitted
+    Identified by compute-provider * resource * job
+
+Fact deletion-evidence-accepted
+    Identified by provider * compute-provider * resource * job
+
+Fact deletion-deadline-expired
+    Identified by compute-provider * resource * job
+
+Fact deletion-deadline-breached
+    Identified by compute-provider * resource * job
+
+Act close-job
+    Actor provider
+    Recipient compute-provider
+    Related to resource, intended-purpose, job
+    Creates deletion-evidence-duty(
+        compute-provider, provider, resource, job)
+    Terminates admitted(
+        compute-provider, resource, intended-purpose, job)
+    Holds when admitted(
+        compute-provider, resource, intended-purpose, job)
+        && controls(provider, resource)
+
+Act submit-evidence
+    Actor compute-provider
+    Recipient provider
+    Related to resource, job
+    Creates deletion-evidence-submitted(
+        compute-provider, resource, job)
+    Holds when deletion-evidence-duty(
+        compute-provider, provider, resource, job)
+
+Act accept-evidence
+    Actor provider
+    Recipient compute-provider
+    Related to resource, job
+    Creates deletion-evidence-accepted(
+        provider, compute-provider, resource, job)
+    Terminates deletion-evidence-duty(
+        compute-provider, provider, resource, job)
+    Holds when deletion-evidence-duty(
+        compute-provider, provider, resource, job)
+        && deletion-evidence-submitted(
+            compute-provider, resource, job)
+        && controls(provider, resource)
+
+Act assess-deadline
+    Actor provider
+    Recipient compute-provider
+    Related to resource, job
+    Creates deletion-deadline-breached(
+        compute-provider, resource, job)
+    Holds when deletion-evidence-duty(
+        compute-provider, provider, resource, job)
+        && deletion-deadline-expired(
+            compute-provider, resource, job)
+        && !deletion-evidence-accepted(
+            provider, compute-provider, resource, job)
+        && controls(provider, resource)

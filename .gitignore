@@ -13,3 +13,8 @@ contracts/*.abi
 contracts/*.bin
 contracts/.sol
 contracts/accounts.json
+fabric/fabric-samples/
+fabric/chaincode/abac/vendor/
+
+policy_translator/generated/fabric
+policy_translator/generated/nir

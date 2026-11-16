@@ -1,0 +1,64 @@
+
+Fact reviewer-assigned
+    Identified by provider * reviewer * resource
+
+Fact observation-reported
+    Identified by compute-provider * resource * job
+
+Fact finding-recorded
+    Identified by reviewer * compute-provider * resource * job
+
+Fact human-response-authorised
+    Identified by provider * compute-provider * resource * job
+
+Act report-observation
+    Actor compute-provider
+    Recipient provider
+    Related to resource, job
+    Creates observation-reported(
+        compute-provider, resource, job)
+    Holds when deletion-evidence-duty(
+        compute-provider, provider, resource, job)
+        && controls(provider, resource)
+
+Act record-finding
+    Actor reviewer
+    Recipient compute-provider
+    Related to provider, resource, job
+    Creates finding-recorded(
+        reviewer, compute-provider, resource, job)
+    Holds when reviewer-assigned(
+        provider, reviewer, resource)
+        && observation-reported(
+            compute-provider, resource, job)
+        && controls(provider, resource)
+
+Act accept-deletion
+    Actor provider
+    Recipient compute-provider
+    Related to reviewer, resource, job
+    Creates deletion-evidence-accepted(
+        provider, compute-provider, resource, job)
+    Terminates deletion-evidence-duty(
+        compute-provider, provider, resource, job)
+    Holds when finding-recorded(
+        reviewer, compute-provider, resource, job)
+        && deletion-evidence-submitted(
+            compute-provider, resource, job)
+        && deletion-evidence-duty(
+            compute-provider, provider, resource, job)
+        && controls(provider, resource)
+
+Act authorise-response
+    Actor provider
+    Recipient compute-provider
+    Related to reviewer, resource, job
+    Creates human-response-authorised(
+        provider, compute-provider, resource, job)
+    Holds when finding-recorded(
+        reviewer, compute-provider, resource, job)
+        && deletion-deadline-breached(
+            compute-provider, resource, job)
+        && deletion-evidence-duty(
+            compute-provider, provider, resource, job)
+        && controls(provider, resource)

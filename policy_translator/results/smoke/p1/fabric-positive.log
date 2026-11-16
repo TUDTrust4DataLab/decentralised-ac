@@ -1,0 +1,28 @@
+=== P1: INITIALISATION ===
+[34m2026-11-15 21:36:31.491 CET 0001 INFO[0m [chaincodeCmd] [34;1mClientWait[0m -> txid [4ef38bc9ac7b92e55676a82729fd8767997d6edf0629a62f34bb2740a4fd754f] committed with status (VALID) at localhost:7051
+[34m2026-11-15 21:36:31.491 CET 0002 INFO[0m [chaincodeCmd] [34;1mClientWait[0m -> txid [4ef38bc9ac7b92e55676a82729fd8767997d6edf0629a62f34bb2740a4fd754f] committed with status (VALID) at localhost:9051
+[34m2026-11-15 21:36:31.494 CET 0003 INFO[0m [chaincodeCmd] [34;1mchaincodeInvokeOrQuery[0m -> Chaincode invoke successful. result: status:200 
+
+=== P1: BEFORE APPROVAL ===
+Access before approval: expected=false observed=false
+PASS: Access before approval
+
+=== P1: APPROVAL ===
+[34m2026-11-15 21:36:33.784 CET 0002 INFO[0m [chaincodeCmd] [34;1mClientWait[0m -> txid [2d92a13ea3589d7d77355daaddd20e605fe42e6420f7271e6b7658dafeb3542f] committed with status (VALID) at localhost:9051
+[34m2026-11-15 21:36:33.784 CET 0001 INFO[0m [chaincodeCmd] [34;1mClientWait[0m -> txid [2d92a13ea3589d7d77355daaddd20e605fe42e6420f7271e6b7658dafeb3542f] committed with status (VALID) at localhost:7051
+[34m2026-11-15 21:36:33.785 CET 0003 INFO[0m [chaincodeCmd] [34;1mchaincodeInvokeOrQuery[0m -> Chaincode invoke successful. result: status:200 
+Approval recorded: expected=true observed=true
+PASS: Approval recorded
+
+=== P1: AFTER APPROVAL ===
+Access after approval: expected=true observed=true
+PASS: Access after approval
+
+=== P1: ADMISSION ===
+[34m2026-11-15 21:36:36.200 CET 0001 INFO[0m [chaincodeCmd] [34;1mClientWait[0m -> txid [ff31f40830701e7e9efd163f186f91f21a543322d7160af72d554b82126220d0] committed with status (VALID) at localhost:9051
+[34m2026-11-15 21:36:36.200 CET 0002 INFO[0m [chaincodeCmd] [34;1mClientWait[0m -> txid [ff31f40830701e7e9efd163f186f91f21a543322d7160af72d554b82126220d0] committed with status (VALID) at localhost:7051
+[34m2026-11-15 21:36:36.201 CET 0003 INFO[0m [chaincodeCmd] [34;1mchaincodeInvokeOrQuery[0m -> Chaincode invoke successful. result: status:200 
+Admission recorded: expected=true observed=true
+PASS: Admission recorded
+
+=== P1: COMPLETED ===

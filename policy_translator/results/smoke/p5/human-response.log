@@ -1,0 +1,79 @@
+New type accept-deletion
+New type accept-evidence
+New type accepted-terms
+New type admission-approved
+New type admission-prerequisites-met
+New type admitted
+New type approve-admission
+New type assess-deadline
+New type asset
+New type authorise-response
+New type authorised-purpose
+New type close-job
+New type controls
+New type deletion-deadline-breached
+New type deletion-deadline-expired
+New type deletion-evidence-accepted
+New type deletion-evidence-duty
+New type deletion-evidence-submitted
+New type finding-recorded
+New type human-response-authorised
+New type observation-reported
+New type party
+New type purpose
+New type record-finding
+New type report-observation
+New type request-access
+New type reviewer-assigned
+New type session
+New type session-purpose
+New type submit-evidence
+#2 > #2 > +party("D")
+#3 > +party("C")
+#4 > +party("R")
+#5 > +asset("maintenance-data")
+#6 > +purpose("predictive-maintenance")
+#7 > +session("job-001")
+#8 > #8 > +controls(party("D"),asset("maintenance-data"))
+#9 > +accepted-terms(party("C"),asset("maintenance-data"),session("job-001"))
+#10 > +authorised-purpose(party("D"),asset("maintenance-data"),purpose("predictive-maintenance"))
+#11 > +admission-prerequisites-met(party("D"),party("C"),asset("maintenance-data"),purpose("predictive-maintenance"),session("job-001"))
++approve-admission(party("D"),party("C"),asset("maintenance-data"),purpose("predictive-maintenance"),session("job-001"))
++session-purpose(session("job-001"),purpose("predictive-maintenance"))
+#12 > +reviewer-assigned(party("D"),party("R"),asset("maintenance-data"))
+#13 > #13 > executed transition: 
+approve-admission(party("D"),party("C"),asset("maintenance-data"),purpose("predictive-maintenance"),session("job-001")) (ENABLED)
++request-access(party("C"),party("D"),asset("maintenance-data"),purpose("predictive-maintenance"),session("job-001"))
++admission-approved(party("D"),party("C"),asset("maintenance-data"),purpose("predictive-maintenance"),session("job-001"))
+#14 > executed transition: 
+request-access(party("C"),party("D"),asset("maintenance-data"),purpose("predictive-maintenance"),session("job-001")) (ENABLED)
++admitted(party("C"),asset("maintenance-data"),purpose("predictive-maintenance"),session("job-001"))
++close-job(party("D"),party("C"),asset("maintenance-data"),purpose("predictive-maintenance"),session("job-001"))
+#15 > executed transition: 
+close-job(party("D"),party("C"),asset("maintenance-data"),purpose("predictive-maintenance"),session("job-001")) (ENABLED)
+~close-job(party("D"),party("C"),asset("maintenance-data"),purpose("predictive-maintenance"),session("job-001"))
+-admitted(party("C"),asset("maintenance-data"),purpose("predictive-maintenance"),session("job-001"))
++deletion-evidence-duty(party("C"),party("D"),asset("maintenance-data"),session("job-001"))
++report-observation(party("C"),party("D"),asset("maintenance-data"),session("job-001"))
++submit-evidence(party("C"),party("D"),asset("maintenance-data"),session("job-001"))
+#16 > #16 > #16 > +deletion-deadline-expired(party("C"),asset("maintenance-data"),session("job-001"))
++assess-deadline(party("D"),party("C"),asset("maintenance-data"),session("job-001"))
+#17 > #17 > executed transition: 
+assess-deadline(party("D"),party("C"),asset("maintenance-data"),session("job-001")) (ENABLED)
++deletion-deadline-breached(party("C"),asset("maintenance-data"),session("job-001"))
+#18 > #18 > executed transition: 
+report-observation(party("C"),party("D"),asset("maintenance-data"),session("job-001")) (ENABLED)
++observation-reported(party("C"),asset("maintenance-data"),session("job-001"))
++record-finding(party("R"),party("C"),party("D"),asset("maintenance-data"),session("job-001"))
+#19 > executed transition: 
+record-finding(party("R"),party("C"),party("D"),asset("maintenance-data"),session("job-001")) (ENABLED)
++authorise-response(party("D"),party("C"),party("R"),asset("maintenance-data"),session("job-001"))
++finding-recorded(party("R"),party("C"),asset("maintenance-data"),session("job-001"))
+#20 > #20 > query successful
+#21 > query failed
+#22 > #22 > executed transition: 
+authorise-response(party("D"),party("C"),party("R"),asset("maintenance-data"),session("job-001")) (ENABLED)
++human-response-authorised(party("D"),party("C"),asset("maintenance-data"),session("job-001"))
+#23 > #23 > query successful
+#24 > query successful
+#25 > #25 > 

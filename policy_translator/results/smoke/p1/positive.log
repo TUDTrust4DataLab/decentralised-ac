@@ -1,0 +1,50 @@
+New type accepted-terms
+New type admission-approved
+New type admission-prerequisites-met
+New type admitted
+New type approve-admission
+New type asset
+New type authorised-purpose
+New type controls
+New type party
+New type purpose
+New type request-access
+New type session
+New type session-purpose
+#2 > +party("D")
+#3 > +party("C")
+#4 > +asset("maintenance-data")
+#5 > +purpose("predictive-maintenance")
+#6 > +session("job-001")
+#7 > #7 > +controls(party("D"),asset("maintenance-data"))
+#8 > +accepted-terms(party("C"),asset("maintenance-data"),session("job-001"))
+#9 > +authorised-purpose(party("D"),asset("maintenance-data"),purpose("predictive-maintenance"))
+#10 > +admission-prerequisites-met(party("D"),party("C"),asset("maintenance-data"),purpose("predictive-maintenance"),session("job-001"))
++approve-admission(party("D"),party("C"),asset("maintenance-data"),purpose("predictive-maintenance"),session("job-001"))
++session-purpose(session("job-001"),purpose("predictive-maintenance"))
+#11 > #11 > query failed
+#12 > #12 > executed transition: 
+approve-admission(party("D"),party("C"),asset("maintenance-data"),purpose("predictive-maintenance"),session("job-001")) (ENABLED)
++request-access(party("C"),party("D"),asset("maintenance-data"),purpose("predictive-maintenance"),session("job-001"))
++admission-approved(party("D"),party("C"),asset("maintenance-data"),purpose("predictive-maintenance"),session("job-001"))
+#13 > #13 > query successful
+#14 > #14 > executed transition: 
+request-access(party("C"),party("D"),asset("maintenance-data"),purpose("predictive-maintenance"),session("job-001")) (ENABLED)
++admitted(party("C"),asset("maintenance-data"),purpose("predictive-maintenance"),session("job-001"))
+#15 > #15 > query successful
+#16 > #16 > party("C") = True
+party("D") = True
+session("job-001") = True
+asset("maintenance-data") = True
+purpose("predictive-maintenance") = True
+request-access(party("C"),party("D"),asset("maintenance-data"),purpose("predictive-maintenance"),session("job-001")) = True
+accepted-terms(party("C"),asset("maintenance-data"),session("job-001")) = True
+admitted(party("C"),asset("maintenance-data"),purpose("predictive-maintenance"),session("job-001")) = True
+admission-approved(party("D"),party("C"),asset("maintenance-data"),purpose("predictive-maintenance"),session("job-001")) = True
+admission-prerequisites-met(party("D"),party("C"),asset("maintenance-data"),purpose("predictive-maintenance"),session("job-001")) = True
+approve-admission(party("D"),party("C"),asset("maintenance-data"),purpose("predictive-maintenance"),session("job-001")) = True
+controls(party("D"),asset("maintenance-data")) = True
+authorised-purpose(party("D"),asset("maintenance-data"),purpose("predictive-maintenance")) = True
+session-purpose(session("job-001"),purpose("predictive-maintenance")) = True
+
+#16 > 

@@ -1,0 +1,195 @@
+
+Fact party Identified by String
+
+Placeholder provider For party
+Placeholder compute-provider For party
+Placeholder consumer For party
+Placeholder reviewer For party
+
+Fact asset Identified by String
+Placeholder resource For asset
+
+Fact purpose Identified by String
+Placeholder intended-purpose For purpose
+
+Fact session Identified by String
+Placeholder job For session
+
+Fact controls
+    Identified by provider * resource
+
+Fact accepted-terms
+    Identified by compute-provider * resource * job
+
+Fact authorised-purpose
+    Identified by provider * resource * intended-purpose
+
+Fact session-purpose
+    Identified by job * intended-purpose
+
+
+Fact admission-approved
+    Identified by provider * compute-provider * resource * intended-purpose * job
+
+Fact admitted
+    Identified by compute-provider * resource * intended-purpose * job
+
+Fact admission-prerequisites-met
+    Identified by provider * compute-provider * resource * intended-purpose * job
+    Holds when controls(provider, resource)
+        && accepted-terms(compute-provider, resource, job)
+        && session-purpose(job, intended-purpose)
+        && authorised-purpose(provider, resource, intended-purpose)
+
+Act approve-admission
+    Actor provider
+    Recipient compute-provider
+    Related to resource, intended-purpose, job
+    Creates admission-approved(
+        provider, compute-provider, resource, intended-purpose, job)
+    Holds when controls(provider, resource)
+        && admission-prerequisites-met(
+            provider, compute-provider, resource, intended-purpose, job)
+
+Act request-access
+    Actor compute-provider
+    Recipient provider
+    Related to resource, intended-purpose, job
+    Creates admitted(
+        compute-provider, resource, intended-purpose, job)
+    Holds when admission-prerequisites-met(
+        provider, compute-provider, resource, intended-purpose, job)
+        && admission-approved(
+            provider, compute-provider, resource, intended-purpose, job)
+
+
+Duty deletion-evidence-duty
+    Holder compute-provider
+    Claimant provider
+    Related to resource, job
+
+Fact deletion-evidence-submitted
+    Identified by compute-provider * resource * job
+
+Fact deletion-evidence-accepted
+    Identified by provider * compute-provider * resource * job
+
+Fact deletion-deadline-expired
+    Identified by compute-provider * resource * job
+
+Fact deletion-deadline-breached
+    Identified by compute-provider * resource * job
+
+Act close-job
+    Actor provider
+    Recipient compute-provider
+    Related to resource, intended-purpose, job
+    Creates deletion-evidence-duty(
+        compute-provider, provider, resource, job)
+    Terminates admitted(
+        compute-provider, resource, intended-purpose, job)
+    Holds when admitted(
+        compute-provider, resource, intended-purpose, job)
+        && controls(provider, resource)
+
+Act submit-evidence
+    Actor compute-provider
+    Recipient provider
+    Related to resource, job
+    Creates deletion-evidence-submitted(
+        compute-provider, resource, job)
+    Holds when deletion-evidence-duty(
+        compute-provider, provider, resource, job)
+
+Act accept-evidence
+    Actor provider
+    Recipient compute-provider
+    Related to resource, job
+    Creates deletion-evidence-accepted(
+        provider, compute-provider, resource, job)
+    Terminates deletion-evidence-duty(
+        compute-provider, provider, resource, job)
+    Holds when deletion-evidence-duty(
+        compute-provider, provider, resource, job)
+        && deletion-evidence-submitted(
+            compute-provider, resource, job)
+        && controls(provider, resource)
+
+Act assess-deadline
+    Actor provider
+    Recipient compute-provider
+    Related to resource, job
+    Creates deletion-deadline-breached(
+        compute-provider, resource, job)
+    Holds when deletion-evidence-duty(
+        compute-provider, provider, resource, job)
+        && deletion-deadline-expired(
+            compute-provider, resource, job)
+        && !deletion-evidence-accepted(
+            provider, compute-provider, resource, job)
+        && controls(provider, resource)
+
+
+Fact reviewer-assigned
+    Identified by provider * reviewer * resource
+
+Fact observation-reported
+    Identified by compute-provider * resource * job
+
+Fact finding-recorded
+    Identified by reviewer * compute-provider * resource * job
+
+Fact human-response-authorised
+    Identified by provider * compute-provider * resource * job
+
+Act report-observation
+    Actor compute-provider
+    Recipient provider
+    Related to resource, job
+    Creates observation-reported(
+        compute-provider, resource, job)
+    Holds when deletion-evidence-duty(
+        compute-provider, provider, resource, job)
+        && controls(provider, resource)
+
+Act record-finding
+    Actor reviewer
+    Recipient compute-provider
+    Related to provider, resource, job
+    Creates finding-recorded(
+        reviewer, compute-provider, resource, job)
+    Holds when reviewer-assigned(
+        provider, reviewer, resource)
+        && observation-reported(
+            compute-provider, resource, job)
+        && controls(provider, resource)
+
+Act accept-deletion
+    Actor provider
+    Recipient compute-provider
+    Related to reviewer, resource, job
+    Creates deletion-evidence-accepted(
+        provider, compute-provider, resource, job)
+    Terminates deletion-evidence-duty(
+        compute-provider, provider, resource, job)
+    Holds when finding-recorded(
+        reviewer, compute-provider, resource, job)
+        && deletion-evidence-submitted(
+            compute-provider, resource, job)
+        && deletion-evidence-duty(
+            compute-provider, provider, resource, job)
+        && controls(provider, resource)
+
+Act authorise-response
+    Actor provider
+    Recipient compute-provider
+    Related to reviewer, resource, job
+    Creates human-response-authorised(
+        provider, compute-provider, resource, job)
+    Holds when finding-recorded(
+        reviewer, compute-provider, resource, job)
+        && deletion-deadline-breached(
+            compute-provider, resource, job)
+        && deletion-evidence-duty(
+            compute-provider, provider, resource, job)
+        && controls(provider, resource)

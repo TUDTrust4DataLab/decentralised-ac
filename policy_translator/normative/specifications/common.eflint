@@ -1,0 +1,28 @@
+
+Fact party Identified by String
+
+Placeholder provider For party
+Placeholder compute-provider For party
+Placeholder consumer For party
+Placeholder reviewer For party
+
+Fact asset Identified by String
+Placeholder resource For asset
+
+Fact purpose Identified by String
+Placeholder intended-purpose For purpose
+
+Fact session Identified by String
+Placeholder job For session
+
+Fact controls
+    Identified by provider * resource
+
+Fact accepted-terms
+    Identified by compute-provider * resource * job
+
+Fact authorised-purpose
+    Identified by provider * resource * intended-purpose
+
+Fact session-purpose
+    Identified by job * intended-purpose

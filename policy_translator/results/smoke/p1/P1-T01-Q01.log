@@ -1,0 +1,26 @@
+New type accepted-terms
+New type admission-approved
+New type admission-prerequisites-met
+New type admitted
+New type approve-admission
+New type asset
+New type authorised-purpose
+New type controls
+New type party
+New type purpose
+New type request-access
+New type session
+New type session-purpose
+#2 > +party("D")
+#3 > +party("C")
+#4 > +asset("maintenance-data")
+#5 > +purpose("predictive-maintenance")
+#6 > +session("job-001")
+#7 > +controls(party("D"),asset("maintenance-data"))
+#8 > +accepted-terms(party("C"),asset("maintenance-data"),session("job-001"))
+#9 > +authorised-purpose(party("D"),asset("maintenance-data"),purpose("predictive-maintenance"))
+#10 > +admission-prerequisites-met(party("D"),party("C"),asset("maintenance-data"),purpose("predictive-maintenance"),session("job-001"))
++approve-admission(party("D"),party("C"),asset("maintenance-data"),purpose("predictive-maintenance"),session("job-001"))
++session-purpose(session("job-001"),purpose("predictive-maintenance"))
+#11 > query failed
+#12 > 

@@ -1,0 +1,65 @@
+
+Fact party Identified by String
+
+Placeholder provider For party
+Placeholder compute-provider For party
+Placeholder consumer For party
+Placeholder reviewer For party
+
+Fact asset Identified by String
+Placeholder resource For asset
+
+Fact purpose Identified by String
+Placeholder intended-purpose For purpose
+
+Fact session Identified by String
+Placeholder job For session
+
+Fact controls
+    Identified by provider * resource
+
+Fact accepted-terms
+    Identified by compute-provider * resource * job
+
+Fact authorised-purpose
+    Identified by provider * resource * intended-purpose
+
+Fact session-purpose
+    Identified by job * intended-purpose
+
+
+
+Fact admission-approved
+    Identified by provider * compute-provider * resource * intended-purpose * job
+
+Fact admitted
+    Identified by compute-provider * resource * intended-purpose * job
+
+Fact admission-prerequisites-met
+    Identified by provider * compute-provider * resource * intended-purpose * job
+    Holds when controls(provider, resource)
+        && accepted-terms(compute-provider, resource, job)
+        && session-purpose(job, intended-purpose)
+        && authorised-purpose(provider, resource, intended-purpose)
+
+Act approve-admission
+    Actor provider
+    Recipient compute-provider
+    Related to resource, intended-purpose, job
+    Creates admission-approved(
+        provider, compute-provider, resource, intended-purpose, job)
+    Holds when controls(provider, resource)
+        && admission-prerequisites-met(
+            provider, compute-provider, resource, intended-purpose, job)
+
+Act request-access
+    Actor compute-provider
+    Recipient provider
+    Related to resource, intended-purpose, job
+    Creates admitted(
+        compute-provider, resource, intended-purpose, job)
+    Holds when admission-prerequisites-met(
+        provider, compute-provider, resource, intended-purpose, job)
+        && admission-approved(
+            provider, compute-provider, resource, intended-purpose, job)
+

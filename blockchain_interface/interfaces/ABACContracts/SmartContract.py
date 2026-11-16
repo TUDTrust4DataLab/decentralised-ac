@@ -1,12 +1,11 @@
-import os
+from pathlib import Path
 
 import solcx
 
 from blockchain_interface.interfaces.EVMInterface import EVMInterface
 
 _solc_version = "0.8.18"
-solcx.install_solc(_solc_version)
-solcx.set_solc_version(_solc_version)
+solcx.set_solc_version(_solc_version, solcx_binary_path=Path("/usr/bin"))
 
 class SmartContract:
     def __init__(self, evm_interface: EVMInterface, contract_address: str, contract_file_path: str):

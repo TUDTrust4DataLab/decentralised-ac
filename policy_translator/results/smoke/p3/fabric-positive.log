@@ -1,0 +1,40 @@
+=== P3: INITIALISATION ===
+[34m2026-11-15 22:25:45.987 CET 0001 INFO[0m [chaincodeCmd] [34;1mClientWait[0m -> txid [c4d81b1ae2db4de40b132a94b596cf36f1e6aff866ea5052611f3c8b107a885d] committed with status (VALID) at localhost:7051
+[34m2026-11-15 22:25:45.987 CET 0002 INFO[0m [chaincodeCmd] [34;1mClientWait[0m -> txid [c4d81b1ae2db4de40b132a94b596cf36f1e6aff866ea5052611f3c8b107a885d] committed with status (VALID) at localhost:9051
+[34m2026-11-15 22:25:45.988 CET 0003 INFO[0m [chaincodeCmd] [34;1mchaincodeInvokeOrQuery[0m -> Chaincode invoke successful. result: status:200 
+=== P3: ADMISSION ===
+[34m2026-11-15 22:25:48.187 CET 0001 INFO[0m [chaincodeCmd] [34;1mClientWait[0m -> txid [d3c737dfaa12ae391a82df3df32ac847eb28e2e4e7df776530d7ef1583d10c64] committed with status (VALID) at localhost:9051
+[34m2026-11-15 22:25:48.187 CET 0002 INFO[0m [chaincodeCmd] [34;1mClientWait[0m -> txid [d3c737dfaa12ae391a82df3df32ac847eb28e2e4e7df776530d7ef1583d10c64] committed with status (VALID) at localhost:7051
+[34m2026-11-15 22:25:48.187 CET 0003 INFO[0m [chaincodeCmd] [34;1mchaincodeInvokeOrQuery[0m -> Chaincode invoke successful. result: status:200 
+[34m2026-11-15 22:25:50.357 CET 0001 INFO[0m [chaincodeCmd] [34;1mClientWait[0m -> txid [423cd8c21e675aa538e779a7b6aec160607ef82f55ee23c1b589649a44bf5eda] committed with status (VALID) at localhost:7051
+[34m2026-11-15 22:25:50.357 CET 0002 INFO[0m [chaincodeCmd] [34;1mClientWait[0m -> txid [423cd8c21e675aa538e779a7b6aec160607ef82f55ee23c1b589649a44bf5eda] committed with status (VALID) at localhost:9051
+[34m2026-11-15 22:25:50.358 CET 0003 INFO[0m [chaincodeCmd] [34;1mchaincodeInvokeOrQuery[0m -> Chaincode invoke successful. result: status:200 
+=== P3: BEFORE OUTPUT REGISTRATION ===
+Output not yet eligible: expected=false observed=false
+PASS: Output not yet eligible
+=== P3: REGISTER OUTPUT ===
+[34m2026-11-15 22:25:52.723 CET 0002 INFO[0m [chaincodeCmd] [34;1mClientWait[0m -> txid [a4ff38698bb379c32ae26ee3d972b20798f036bd5949fcf38cdb1a0352c51566] committed with status (VALID) at localhost:9051
+[34m2026-11-15 22:25:52.723 CET 0001 INFO[0m [chaincodeCmd] [34;1mClientWait[0m -> txid [a4ff38698bb379c32ae26ee3d972b20798f036bd5949fcf38cdb1a0352c51566] committed with status (VALID) at localhost:7051
+[34m2026-11-15 22:25:52.724 CET 0003 INFO[0m [chaincodeCmd] [34;1mchaincodeInvokeOrQuery[0m -> Chaincode invoke successful. result: status:200 
+Output registered: expected=true observed=true
+PASS: Output registered
+Release approval now possible: expected=true observed=true
+PASS: Release approval now possible
+=== P3: BEFORE RELEASE APPROVAL ===
+Release blocked before approval: expected=false observed=false
+PASS: Release blocked before approval
+=== P3: APPROVE RELEASE ===
+[34m2026-11-15 22:25:55.321 CET 0001 INFO[0m [chaincodeCmd] [34;1mClientWait[0m -> txid [652ec2625136395bcdb45a57d1bb845b7800219dc80022119017423107e062ad] committed with status (VALID) at localhost:9051
+[34m2026-11-15 22:25:55.321 CET 0002 INFO[0m [chaincodeCmd] [34;1mClientWait[0m -> txid [652ec2625136395bcdb45a57d1bb845b7800219dc80022119017423107e062ad] committed with status (VALID) at localhost:7051
+[34m2026-11-15 22:25:55.322 CET 0003 INFO[0m [chaincodeCmd] [34;1mchaincodeInvokeOrQuery[0m -> Chaincode invoke successful. result: status:200 
+Release approved: expected=true observed=true
+PASS: Release approved
+Other output not authorised: expected=false observed=false
+PASS: Other output not authorised
+=== P3: RELEASE OUTPUT ===
+[34m2026-11-15 22:25:57.808 CET 0001 INFO[0m [chaincodeCmd] [34;1mClientWait[0m -> txid [fa6746adc9635a4f275eea4e751c3f021726686cc4c5e73c0bb2336d33a33270] committed with status (VALID) at localhost:9051
+[34m2026-11-15 22:25:57.808 CET 0002 INFO[0m [chaincodeCmd] [34;1mClientWait[0m -> txid [fa6746adc9635a4f275eea4e751c3f021726686cc4c5e73c0bb2336d33a33270] committed with status (VALID) at localhost:7051
+[34m2026-11-15 22:25:57.809 CET 0003 INFO[0m [chaincodeCmd] [34;1mchaincodeInvokeOrQuery[0m -> Chaincode invoke successful. result: status:200 
+Release recorded: expected=true observed=true
+PASS: Release recorded
+=== P3: COMPLETED ===
