@@ -1,0 +1,14 @@
+
+Fact person Identified by String
+
+Placeholder actor For person
+Placeholder recipient For person
+
+Fact approved
+    Identified by actor * recipient
+
+Act grant-approval
+    Actor actor
+    Recipient recipient
+    Creates approved(actor, recipient)
+    Holds when True

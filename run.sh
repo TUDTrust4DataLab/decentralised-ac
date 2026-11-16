@@ -1,4 +1,4 @@
 #!/bin/bash
 source .venv/bin/activate
-source .env.prod
+source .env
 python3 app.py

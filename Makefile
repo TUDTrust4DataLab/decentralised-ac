@@ -14,7 +14,15 @@ run:
 
 .PHONY: run-docker
 run-docker:
-	docker-compose up --build
+	docker compose up --build
+
+.PHONY: run-docker-dev
+run-docker-dev:
+	@docker compose -f docker-compose-dev.yaml up --build
+
+.PHONY: run-keycloak-dev
+run-keycloak-dev:
+	@docker compose -f docker-compose-dev.yaml up postgres keycloak --build
 
 .PHONY: bootstrap
 bootstrap:

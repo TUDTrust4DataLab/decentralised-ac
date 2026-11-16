@@ -1,17 +1,15 @@
 import json
 import sys
+from pathlib import Path
 
 import solcx
-from typing_extensions import override
+from blockchain_interface.errors import SolidityCompilationError, SolidityDeploymentError
+from blockchain_interface.interfaces.EVMInterface import EVMInterface
 from web3 import Web3, HTTPProvider
 from web3.middleware import ExtraDataToPOAMiddleware
 
-from blockchain_interface.errors import SolidityCompilationError, SolidityDeploymentError
-from blockchain_interface.interfaces.EVMInterface import EVMInterface
-
 _solc_version = "0.8.18"
-solcx.install_solc(_solc_version)
-solcx.set_solc_version(_solc_version)
+solcx.set_solc_version(_solc_version, solcx_binary_path=Path("/usr/bin"))
 
 
 class SolidityDeployer:

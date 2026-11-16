@@ -7,7 +7,7 @@ FROM ubuntu:22.04 as solc-builder
 
 ARG SOLC_VERSION=0.8.18
 
-RUN apt-get update && apt-get install -y --no-install-recommends curl ca-certificates && \
+RUN apt-get update && apt-get install -y --no-install-recommends curl net-tools telnet ca-certificates && \
     curl -L -o /usr/bin/solc https://github.com/ethereum/solidity/releases/download/v${SOLC_VERSION}/solc-static-linux && \
     chmod +x /usr/bin/solc && \
     solc --version && \

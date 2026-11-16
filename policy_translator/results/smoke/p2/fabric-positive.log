@@ -1,0 +1,2 @@
+=== P2: INITIALISATION ===
+Error: endorsement failure during invoke. response: status:500 message:"already initialised" 

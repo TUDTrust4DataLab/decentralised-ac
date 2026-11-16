@@ -1,0 +1,3 @@
+=== P4: RESUMING AFTER ADMISSION ===
+Admission exists: expected=true observed=false
+FAIL: Admission exists

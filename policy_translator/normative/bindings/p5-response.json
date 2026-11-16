@@ -1,0 +1,84 @@
+[
+  {
+    "name": "party",
+    "args": [
+      "D"
+    ]
+  },
+  {
+    "name": "party",
+    "args": [
+      "C"
+    ]
+  },
+  {
+    "name": "asset",
+    "args": [
+      "maintenance-data"
+    ]
+  },
+  {
+    "name": "purpose",
+    "args": [
+      "predictive-maintenance"
+    ]
+  },
+  {
+    "name": "session",
+    "args": [
+      "job-001"
+    ]
+  },
+  {
+    "name": "controls",
+    "args": [
+      "D",
+      "maintenance-data"
+    ]
+  },
+  {
+    "name": "accepted-terms",
+    "args": [
+      "C",
+      "maintenance-data",
+      "job-001"
+    ]
+  },
+  {
+    "name": "authorised-purpose",
+    "args": [
+      "D",
+      "maintenance-data",
+      "predictive-maintenance"
+    ]
+  },
+  {
+    "name": "session-purpose",
+    "args": [
+      "job-001",
+      "predictive-maintenance"
+    ]
+  },
+  {
+    "name": "party",
+    "args": [
+      "R"
+    ]
+  },
+  {
+    "name": "reviewer-assigned",
+    "args": [
+      "D",
+      "R",
+      "maintenance-data"
+    ]
+  },
+  {
+    "name": "deletion-deadline-expired",
+    "args": [
+      "C",
+      "maintenance-data",
+      "job-001"
+    ]
+  }
+]

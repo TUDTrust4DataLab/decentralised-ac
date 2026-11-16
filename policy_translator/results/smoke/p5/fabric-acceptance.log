@@ -1,0 +1,41 @@
+=== P5: INITIALISATION (acceptance) ===
+[34m2026-11-15 23:24:39.494 CET 0001 INFO[0m [chaincodeCmd] [34;1mClientWait[0m -> txid [b9360fe8bd89a6690182508897d1bec403ed994981e99e4051293dc44d3ae23a] committed with status (VALID) at localhost:7051
+[34m2026-11-15 23:24:39.494 CET 0002 INFO[0m [chaincodeCmd] [34;1mClientWait[0m -> txid [b9360fe8bd89a6690182508897d1bec403ed994981e99e4051293dc44d3ae23a] committed with status (VALID) at localhost:9051
+[34m2026-11-15 23:24:39.495 CET 0003 INFO[0m [chaincodeCmd] [34;1mchaincodeInvokeOrQuery[0m -> Chaincode invoke successful. result: status:200 
+=== P5: ADMISSION AND CLOSURE ===
+[34m2026-11-15 23:24:41.596 CET 0001 INFO[0m [chaincodeCmd] [34;1mClientWait[0m -> txid [b719a3ae548165b486bfffbbdeb7cdf7287f3e63e0bb78b17cc21cc8573ca0ce] committed with status (VALID) at localhost:9051
+[34m2026-11-15 23:24:41.596 CET 0002 INFO[0m [chaincodeCmd] [34;1mClientWait[0m -> txid [b719a3ae548165b486bfffbbdeb7cdf7287f3e63e0bb78b17cc21cc8573ca0ce] committed with status (VALID) at localhost:7051
+[34m2026-11-15 23:24:41.597 CET 0003 INFO[0m [chaincodeCmd] [34;1mchaincodeInvokeOrQuery[0m -> Chaincode invoke successful. result: status:200 
+[34m2026-11-15 23:24:43.711 CET 0001 INFO[0m [chaincodeCmd] [34;1mClientWait[0m -> txid [f6fa65d3c9cca1dac84e2b6acc7adb70dd4e1ada9338eddbee4d91271277bc1f] committed with status (VALID) at localhost:9051
+[34m2026-11-15 23:24:43.711 CET 0002 INFO[0m [chaincodeCmd] [34;1mClientWait[0m -> txid [f6fa65d3c9cca1dac84e2b6acc7adb70dd4e1ada9338eddbee4d91271277bc1f] committed with status (VALID) at localhost:7051
+[34m2026-11-15 23:24:43.712 CET 0003 INFO[0m [chaincodeCmd] [34;1mchaincodeInvokeOrQuery[0m -> Chaincode invoke successful. result: status:200 
+[34m2026-11-15 23:24:45.837 CET 0002 INFO[0m [chaincodeCmd] [34;1mClientWait[0m -> txid [184a2673c8b9e2229082f73143426c28a1c99e990c2dc5911e1e0833e707541c] committed with status (VALID) at localhost:9051
+[34m2026-11-15 23:24:45.837 CET 0001 INFO[0m [chaincodeCmd] [34;1mClientWait[0m -> txid [184a2673c8b9e2229082f73143426c28a1c99e990c2dc5911e1e0833e707541c] committed with status (VALID) at localhost:7051
+[34m2026-11-15 23:24:45.838 CET 0003 INFO[0m [chaincodeCmd] [34;1mchaincodeInvokeOrQuery[0m -> Chaincode invoke successful. result: status:200 
+Deletion duty created: expected=true observed=true
+PASS: Deletion duty created
+=== P5: HUMAN ASSESSMENT ===
+[34m2026-11-15 23:24:48.012 CET 0001 INFO[0m [chaincodeCmd] [34;1mClientWait[0m -> txid [ff03c71e5dbc484efe9462c087f2ed79cb397c8907adcc900c0e59519d9b15be] committed with status (VALID) at localhost:7051
+[34m2026-11-15 23:24:48.012 CET 0002 INFO[0m [chaincodeCmd] [34;1mClientWait[0m -> txid [ff03c71e5dbc484efe9462c087f2ed79cb397c8907adcc900c0e59519d9b15be] committed with status (VALID) at localhost:9051
+[34m2026-11-15 23:24:48.013 CET 0003 INFO[0m [chaincodeCmd] [34;1mchaincodeInvokeOrQuery[0m -> Chaincode invoke successful. result: status:200 
+No finding before review: expected=false observed=false
+PASS: No finding before review
+[34m2026-11-15 23:24:50.195 CET 0001 INFO[0m [chaincodeCmd] [34;1mClientWait[0m -> txid [72dac2366b069b386067e40c39a8378df74522535e3fd357f4d325169733646e] committed with status (VALID) at localhost:7051
+[34m2026-11-15 23:24:50.195 CET 0002 INFO[0m [chaincodeCmd] [34;1mClientWait[0m -> txid [72dac2366b069b386067e40c39a8378df74522535e3fd357f4d325169733646e] committed with status (VALID) at localhost:9051
+[34m2026-11-15 23:24:50.196 CET 0003 INFO[0m [chaincodeCmd] [34;1mchaincodeInvokeOrQuery[0m -> Chaincode invoke successful. result: status:200 
+[34m2026-11-15 23:24:52.311 CET 0001 INFO[0m [chaincodeCmd] [34;1mClientWait[0m -> txid [794b507e9a452bce9f19305937a4a69330c9b453291978f70b6aac4993537509] committed with status (VALID) at localhost:9051
+[34m2026-11-15 23:24:52.311 CET 0002 INFO[0m [chaincodeCmd] [34;1mClientWait[0m -> txid [794b507e9a452bce9f19305937a4a69330c9b453291978f70b6aac4993537509] committed with status (VALID) at localhost:7051
+[34m2026-11-15 23:24:52.311 CET 0003 INFO[0m [chaincodeCmd] [34;1mchaincodeInvokeOrQuery[0m -> Chaincode invoke successful. result: status:200 
+Human finding recorded: expected=true observed=true
+PASS: Human finding recorded
+=== P5: HUMAN ACCEPTANCE ===
+Human acceptance permitted: expected=true observed=true
+PASS: Human acceptance permitted
+[34m2026-11-15 23:24:54.520 CET 0001 INFO[0m [chaincodeCmd] [34;1mClientWait[0m -> txid [3a6bfa9c5c7adf2b988b69e7f2e1c02a9ea9682c8819e23ff59f865123eca661] committed with status (VALID) at localhost:7051
+[34m2026-11-15 23:24:54.520 CET 0002 INFO[0m [chaincodeCmd] [34;1mClientWait[0m -> txid [3a6bfa9c5c7adf2b988b69e7f2e1c02a9ea9682c8819e23ff59f865123eca661] committed with status (VALID) at localhost:9051
+[34m2026-11-15 23:24:54.521 CET 0003 INFO[0m [chaincodeCmd] [34;1mchaincodeInvokeOrQuery[0m -> Chaincode invoke successful. result: status:200 
+Evidence accepted: expected=true observed=true
+PASS: Evidence accepted
+Duty terminated: expected=false observed=false
+PASS: Duty terminated
+=== P5: COMPLETED (acceptance) ===

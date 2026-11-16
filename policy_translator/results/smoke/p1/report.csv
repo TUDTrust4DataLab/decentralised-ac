@@ -1,0 +1,7 @@
+test_id,scenario,status,expected_failed_queries,observed_failed_queries
+P1-T01,positive.txt,PASS,1,1
+P1-T02,missing-approval.txt,PASS,2,2
+P1-T03,missing-terms.txt,PASS,2,2
+P1-T04,wrong-purpose.txt,PASS,2,2
+P1-T05,wrong-session.txt,PASS,2,2
+P1-T06,unauthorised-approval.txt,PASS,2,2

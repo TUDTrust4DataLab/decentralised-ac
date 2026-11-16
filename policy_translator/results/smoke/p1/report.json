@@ -1,0 +1,133 @@
+{
+  "policy": "P1",
+  "timestamp": "2026-11-15T19:16:46.448305+00:00",
+  "results": [
+    {
+      "test_id": "P1-T01",
+      "status": "PASS",
+      "assertions": [
+        {
+          "query": "?admitted(party(\"C\"),asset(\"maintenance-data\"),purpose(\"predictive-maintenance\"),session(\"job-001\"))",
+          "expected": false,
+          "observed": false,
+          "status": "PASS",
+          "error": null
+        },
+        {
+          "query": "?admission-approved(party(\"D\"),party(\"C\"),asset(\"maintenance-data\"),purpose(\"predictive-maintenance\"),session(\"job-001\"))",
+          "expected": true,
+          "observed": true,
+          "status": "PASS",
+          "error": null
+        },
+        {
+          "query": "?admitted(party(\"C\"),asset(\"maintenance-data\"),purpose(\"predictive-maintenance\"),session(\"job-001\"))",
+          "expected": true,
+          "observed": true,
+          "status": "PASS",
+          "error": null
+        }
+      ]
+    },
+    {
+      "test_id": "P1-T02",
+      "status": "PASS",
+      "assertions": [
+        {
+          "query": "?admission-approved(party(\"D\"),party(\"C\"),asset(\"maintenance-data\"),purpose(\"predictive-maintenance\"),session(\"job-001\"))",
+          "expected": false,
+          "observed": false,
+          "status": "PASS",
+          "error": null
+        },
+        {
+          "query": "?admitted(party(\"C\"),asset(\"maintenance-data\"),purpose(\"predictive-maintenance\"),session(\"job-001\"))",
+          "expected": false,
+          "observed": false,
+          "status": "PASS",
+          "error": null
+        }
+      ]
+    },
+    {
+      "test_id": "P1-T03",
+      "status": "PASS",
+      "assertions": [
+        {
+          "query": "?admission-prerequisites-met(party(\"D\"),party(\"C\"),asset(\"maintenance-data\"),purpose(\"predictive-maintenance\"),session(\"job-001\"))",
+          "expected": false,
+          "observed": false,
+          "status": "PASS",
+          "error": null
+        },
+        {
+          "query": "?admitted(party(\"C\"),asset(\"maintenance-data\"),purpose(\"predictive-maintenance\"),session(\"job-001\"))",
+          "expected": false,
+          "observed": false,
+          "status": "PASS",
+          "error": null
+        }
+      ]
+    },
+    {
+      "test_id": "P1-T04",
+      "status": "PASS",
+      "assertions": [
+        {
+          "query": "?admission-approved(party(\"D\"),party(\"C\"),asset(\"maintenance-data\"),purpose(\"commercial-analysis\"),session(\"job-001\"))",
+          "expected": false,
+          "observed": false,
+          "status": "PASS",
+          "error": null
+        },
+        {
+          "query": "?admitted(party(\"C\"),asset(\"maintenance-data\"),purpose(\"commercial-analysis\"),session(\"job-001\"))",
+          "expected": false,
+          "observed": false,
+          "status": "PASS",
+          "error": null
+        }
+      ]
+    },
+    {
+      "test_id": "P1-T05",
+      "status": "PASS",
+      "assertions": [
+        {
+          "query": "?admission-approved(party(\"D\"),party(\"C\"),asset(\"maintenance-data\"),purpose(\"predictive-maintenance\"),session(\"job-002\"))",
+          "expected": false,
+          "observed": false,
+          "status": "PASS",
+          "error": null
+        },
+        {
+          "query": "?admitted(party(\"C\"),asset(\"maintenance-data\"),purpose(\"predictive-maintenance\"),session(\"job-002\"))",
+          "expected": false,
+          "observed": false,
+          "status": "PASS",
+          "error": null
+        }
+      ]
+    },
+    {
+      "test_id": "P1-T06",
+      "status": "PASS",
+      "assertions": [
+        {
+          "query": "?admission-approved(party(\"X\"),party(\"C\"),asset(\"maintenance-data\"),purpose(\"predictive-maintenance\"),session(\"job-001\"))",
+          "expected": false,
+          "observed": false,
+          "status": "PASS",
+          "error": null
+        },
+        {
+          "query": "?admitted(party(\"C\"),asset(\"maintenance-data\"),purpose(\"predictive-maintenance\"),session(\"job-001\"))",
+          "expected": false,
+          "observed": false,
+          "status": "PASS",
+          "error": null
+        }
+      ]
+    }
+  ]
+}

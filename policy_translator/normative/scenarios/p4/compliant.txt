@@ -1,0 +1,31 @@
+
++party("D")
++party("C")
++asset("maintenance-data")
++purpose("predictive-maintenance")
++session("job-001")
+
++controls("D", "maintenance-data")
++accepted-terms("C", "maintenance-data", "job-001")
++authorised-purpose("D", "maintenance-data", "predictive-maintenance")
++session-purpose("job-001", "predictive-maintenance")
+
+approve-admission("D", "C", "maintenance-data", "predictive-maintenance", "job-001")
+request-access("C", "D", "maintenance-data", "predictive-maintenance", "job-001")
+
+close-job("D", "C", "maintenance-data", "predictive-maintenance", "job-001")
+
+?admitted("C", "maintenance-data", "predictive-maintenance", "job-001")
+?deletion-evidence-duty("C", "D", "maintenance-data", "job-001")
+
+submit-evidence("C", "D", "maintenance-data", "job-001")
+
+?deletion-evidence-submitted("C", "maintenance-data", "job-001")
+?deletion-evidence-duty("C", "D", "maintenance-data", "job-001")
+
+accept-evidence("D", "C", "maintenance-data", "job-001")
+
+?deletion-evidence-accepted("D", "C", "maintenance-data", "job-001")
+?deletion-evidence-duty("C", "D", "maintenance-data", "job-001")
+
+:quit

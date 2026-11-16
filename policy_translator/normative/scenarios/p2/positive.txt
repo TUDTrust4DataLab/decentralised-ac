@@ -1,0 +1,31 @@
++party("D")
++party("C")
++asset("maintenance-data")
++purpose("predictive-maintenance")
++session("job-001")
++operation("analysis-001")
+
++controls("D", "maintenance-data")
++accepted-terms("C", "maintenance-data", "job-001")
++authorised-purpose("D", "maintenance-data", "predictive-maintenance")
++session-purpose("job-001", "predictive-maintenance")
+
+approve-admission("D", "C", "maintenance-data", "predictive-maintenance", "job-001")
+request-access("C", "D", "maintenance-data", "predictive-maintenance", "job-001")
+
++operating-conditions-met("D", "maintenance-data", "job-001")
++operation-purpose("analysis-001", "predictive-maintenance")
+
+?step-permitted("D", "C", "maintenance-data", "predictive-maintenance", "job-001", "analysis-001")
+
+authorise-step("C", "D", "maintenance-data", "predictive-maintenance", "job-001", "analysis-001")
+
+?step-executed("C", "maintenance-data", "job-001", "analysis-001")
+
+suspend-session("D", "C", "maintenance-data", "job-001")
+
+?operating-conditions-met("D", "maintenance-data", "job-001")
+?step-permitted("D", "C", "maintenance-data", "predictive-maintenance", "job-001", "analysis-001")
+?step-executed("C", "maintenance-data", "job-001", "analysis-001")
+
+:quit

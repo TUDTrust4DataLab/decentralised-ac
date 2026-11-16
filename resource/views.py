@@ -2,44 +2,25 @@ from flask import request
 from flask_restx import Namespace, Resource
 
 from api import settings
-from blockchain_interface.helpers.utils import transaction_to_dict
-from blockchain_interface.interfaces.ABACContracts.PAP import PolicyAdministrationPoint
-from blockchain_interface.interfaces.ABACContracts.PDP import PolicyDecisionPoint
-from blockchain_interface.interfaces.ABACContracts.PIP import PolicyInformationPoint
-from blockchain_interface.interfaces.HyperledgerBesu import HyperledgerBesu
-from keycloak_interface.keycloakInterface import KeycloakInterface
+from access_control.authentication.factory import create_authentication_handler
 from keycloak_interface.utils.functions import extract_header_token
+from access_control.factory import create_access_control_backend
+from access_control.context import ContextHandler
 
 api: Namespace = Namespace('Resources', description='ExtremeXP Resource Management Endpoints')
 
-keycloak_interface = KeycloakInterface(
-    server_url=settings.KEYCLOAK_CONFIG.get('KEYCLOAK_SERVER_URL'),
-    realm_name=settings.KEYCLOAK_CONFIG.get('KEYCLOAK_REALM'),
-    client_id=settings.KEYCLOAK_CONFIG.get('KEYCLOAK_CLIENT_ID'),
-    client_secret_key=settings.KEYCLOAK_CONFIG.get('KEYCLOAK_CLIENT_SECRET_KEY')
+access_control_backend = create_access_control_backend(
+        backend_name=settings.ACCESS_CONTROL_BACKEND,
+        blockchain_config=settings.BLOCKCHAIN_CONFIG,
+        fabric_gateway_url=settings.FABRIC_GATEWAY_URL
+    )
+
+authentication_handler = create_authentication_handler(
+    provider_name=settings.AUTHENTICATION_PROVIDER,
+    keycloak_config=settings.KEYCLOAK_CONFIG,
 )
 
-evm_interface_instance = HyperledgerBesu(settings.BLOCKCHAIN_CONFIG.get('BLOCKCHAIN_RPC_URL')).connect(
-    settings.BLOCKCHAIN_CONFIG.get('BLOCKCHAIN_PRIVATE_KEY')
-)
-
-PIPSmartContract = PolicyInformationPoint(
-    evm_interface_instance,
-    settings.BLOCKCHAIN_CONFIG.get('POLICY_INFORMATION_POINT_ADDRESS'),
-    f"{settings.BLOCKCHAIN_CONFIG.get('BLOCKCHAIN_CONTRACTS_ROOT_PATH')}/PIP.sol"
-).load()
-
-PAPSmartContract = PolicyAdministrationPoint(
-    evm_interface_instance,
-    settings.BLOCKCHAIN_CONFIG.get('POLICY_ADMINISTRATION_POINT_ADDRESS'),
-    f"{settings.BLOCKCHAIN_CONFIG.get('BLOCKCHAIN_CONTRACTS_ROOT_PATH')}/PAP.sol"
-).load()
-
-PDPSmartContract = PolicyDecisionPoint(
-    evm_interface_instance,
-    settings.BLOCKCHAIN_CONFIG.get('POLICY_DECISION_POINT_ADDRESS'),
-    f"{settings.BLOCKCHAIN_CONFIG.get('BLOCKCHAIN_CONTRACTS_ROOT_PATH')}/PDP.sol"
-).load()
+context_handler = ContextHandler()
 
 @api.route("/protect")
 class ProtectResourceView(Resource):
@@ -50,7 +31,7 @@ class ProtectResourceView(Resource):
     })
     def post(self):
         token = extract_header_token(request)
-        if not keycloak_interface.validate_request_token(token):
+        if not authentication_handler.validate_token(token):
             return {'error': 'Invalid or missing token'}, 401
         try:
             payload = request.json
@@ -58,23 +39,17 @@ class ProtectResourceView(Resource):
             if not payload.get('uri') or not payload.get('content_hash') or not payload.get('policy_address'):
                 return {'error': 'Missing required fields'}, 400
 
-            response = {}
-
-            # add resource to PIP
-            tx = PIPSmartContract.add_resource(
-                payload.get('uri'),
-                payload.get('content_hash'),
+            response = (
+                access_control_backend.protect_resource(
+                    uri=payload.get('uri'),
+                    content_hash=payload.get(
+                        'content_hash'
+                    ),
+                    policy_reference=payload.get(
+                        'policy_address'
+                    ),
+                )
             )
-
-            response['PIP_transaction'] = transaction_to_dict(tx)
-
-            # register resource in PAP
-            tx = PAPSmartContract.register_resource(
-                payload.get('uri'),
-                payload.get('policy_address')
-            )
-
-            response['PAP_transaction'] = transaction_to_dict(tx)
 
             return response, 201
         except Exception as e:
@@ -85,7 +60,7 @@ class ProtectResourceView(Resource):
     }, methods=['GET'])
     def get(self, *args, **kwargs):
         token = extract_header_token(request)
-        if not keycloak_interface.validate_request_token(token):
+        if not authentication_handler.validate_token(token):
             return {'error': 'Invalid or missing token'}, 401
         try:
             payload = dict(request.args)
@@ -94,7 +69,13 @@ class ProtectResourceView(Resource):
                 return {'error': 'Missing required fields'}, 400
 
             # get resource from PAP
-            policy_address = PAPSmartContract.get_resource_policy(payload.get('uri'))
+            policy_address = (
+                access_control_backend
+                .get_resource_policy(
+                    payload.get('uri', '0x0')
+                )
+            )
+
             response = {
                 'policy_address': policy_address
             }
@@ -102,6 +83,7 @@ class ProtectResourceView(Resource):
             return response, 200 if int(policy_address, 16) else 404
         except Exception as e:
             return {'error': str(e)}, 401
+
 
 @api.route("/access")
 class AccessResourceView(Resource):
@@ -112,7 +94,7 @@ class AccessResourceView(Resource):
     })
     def post(self):
         token = extract_header_token(request)
-        if not keycloak_interface.validate_request_token(token):
+        if not authentication_handler.validate_token(token):
             return {'error': 'Invalid or missing token'}, 401
         try:
             payload = request.json
@@ -120,20 +102,17 @@ class AccessResourceView(Resource):
             if not payload.get('uri') or not payload.get('origin_ip') or not payload.get('scope'):
                 return {'error': 'Missing required fields'}, 400
 
-            user_info, status_code = keycloak_interface.userinfo(token)
-            if status_code != 200:
-                return {'error': 'Invalid token'}, 401
+            user_info = authentication_handler.get_user_info(token)
 
-            access_granted = PDPSmartContract.evaluate_request(
-                user_info.get('user_wallet_address'),
-                user_info.get('email'),
-                payload.get('origin_ip'),
-                payload.get('scope'),
-                user_info.get('user_location_lat'),
-                user_info.get('user_location_long'),
-                payload.get('uri')
+            context = context_handler.build(
+                user_info=user_info,
+                resource_id=payload.get('uri'),
+                action=payload.get('scope'),
+                origin_ip=payload.get('origin_ip'),
             )
 
-            return {"grant": access_granted}, 200 if access_granted else 403
+            decision = access_control_backend.evaluate_access(context)
+
+            return {"grant": decision.granted}, 200 if decision.granted else 403
         except Exception as e:
             return {'error': str(e)}, 403

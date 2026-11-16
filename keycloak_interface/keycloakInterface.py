@@ -282,6 +282,7 @@ class KeycloakInterface:
 
         Returns:
             json: user info data
+            int: status code
         """
         headers = {"authorization": "Bearer " + token}
         try:
@@ -295,7 +296,7 @@ class KeycloakInterface:
             )
             if raise_exception:
                 raise
-            return {}
+            return {}, 500
         return response, status_code
 
     def create_user(self, username: str, password: str, email: str, name: str):

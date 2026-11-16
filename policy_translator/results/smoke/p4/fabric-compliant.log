@@ -1,0 +1,2 @@
+=== P4: INITIALISATION (compliant) ===
+Error: endorsement failure during invoke. response: status:500 message:"already initialised" 

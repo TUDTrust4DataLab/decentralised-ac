@@ -1,0 +1,35 @@
+
++party("D")
++party("C")
++party("R")
++asset("maintenance-data")
++purpose("predictive-maintenance")
++session("job-001")
+
++controls("D", "maintenance-data")
++accepted-terms("C", "maintenance-data", "job-001")
++authorised-purpose("D", "maintenance-data", "predictive-maintenance")
++session-purpose("job-001", "predictive-maintenance")
++reviewer-assigned("D", "R", "maintenance-data")
+
+approve-admission("D", "C", "maintenance-data", "predictive-maintenance", "job-001")
+request-access("C", "D", "maintenance-data", "predictive-maintenance", "job-001")
+close-job("D", "C", "maintenance-data", "predictive-maintenance", "job-001")
+
+
++deletion-deadline-expired("C", "maintenance-data", "job-001")
+
+assess-deadline("D", "C", "maintenance-data", "job-001")
+
+report-observation("C", "D", "maintenance-data", "job-001")
+record-finding("R", "C", "D", "maintenance-data", "job-001")
+
+?finding-recorded("R", "C", "maintenance-data", "job-001")
+?human-response-authorised("D", "C", "maintenance-data", "job-001")
+
+authorise-response("D", "C", "R", "maintenance-data", "job-001")
+
+?human-response-authorised("D", "C", "maintenance-data", "job-001")
+?deletion-evidence-duty("C", "D", "maintenance-data", "job-001")
+
+:quit

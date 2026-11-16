@@ -1,0 +1,94 @@
+services:
+  postgres:
+    image: postgres:18.4-alpine
+    container_name: postgres
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U $${POSTGRES_USER}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+    volumes:
+      - postgresql_data:/var/lib/postgresql
+    networks:
+      - cipher-net
+
+  access-control-app:
+    build:
+        context: .
+    container_name: access-control-app
+    expose:
+      - ${FLASK_AC_APP_PORT}
+    ports:
+      - ${FLASK_AC_APP_PORT}:${FLASK_AC_APP_PORT}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      - FLASK_AC_APP_HOST=${FLASK_AC_APP_HOST}
+      - FLASK_AC_APP_PORT=${FLASK_AC_APP_PORT}
+      - FLASK_AC_APP_NAME=${FLASK_AC_APP_NAME}
+      - FLASK_AC_APP_DEBUG=${FLASK_AC_APP_DEBUG}
+      - FLASK_AC_APP_ENV=${FLASK_AC_APP_ENV}
+      - FLASK_AC_APP_SECRET_KEY=${FLASK_AC_APP_SECRET_KEY}
+      - FLASK_AC_APP_DATABASE_URI=${FLASK_AC_APP_DATABASE_URI}
+      - KEYCLOAK_SERVER_URL=${KEYCLOAK_SERVER_URL}
+      - OIDC_OP_AUTHORIZATION_ENDPOINT=${OIDC_OP_AUTHORIZATION_ENDPOINT}
+      - OIDC_OP_ENDSESSION_ENDPOINT=${OIDC_OP_ENDSESSION_ENDPOINT}
+      - OIDC_OP_JWKS_ENDPOINT=${OIDC_OP_JWKS_ENDPOINT}
+      - OIDC_OP_LOGOUT_ENDPOINT=${OIDC_OP_LOGOUT_ENDPOINT}
+      - OIDC_OP_LOGOUT_URL_METHOD=${OIDC_OP_LOGOUT_URL_METHOD}
+      - OIDC_OP_TOKEN_ENDPOINT=${OIDC_OP_TOKEN_ENDPOINT}
+      - OIDC_OP_USER_ENDPOINT=${OIDC_OP_USER_ENDPOINT}
+      - OIDC_RP_CLIENT_ID=${OIDC_RP_CLIENT_ID}
+      - OIDC_RP_REALM_ID=${OIDC_RP_REALM_ID}
+      - OIDC_RP_CLIENT_SECRET=${OIDC_RP_CLIENT_SECRET}
+      - OIDC_RP_SIGN_ALGO=${OIDC_RP_SIGN_ALGO}
+    command: python app.py
+    volumes:
+      - .:/app
+    networks:
+      - cipher-net
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.4.4
+    container_name: keycloak
+    restart: unless-stopped
+    ports:
+      - ${KEYCLOAK_PORT}:${KEYCLOAK_PORT}
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: ${KEYCLOAK_USERNAME}
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${KEYCLOAK_USER_PASSWORD}
+      KC_HOSTNAME: ${KEYCLOAK_HOSTNAME}
+      KC_DB: postgres
+      KC_DB_URL_HOST: postgres
+      KC_DB_URL_PORT: ${POSTGRES_PORT}
+      KC_DB_URL_DATABASE: ${POSTGRES_DB}
+      KC_DB_USERNAME: ${POSTGRES_USER}
+      KC_DB_PASSWORD: ${POSTGRES_PASSWORD}
+      KC_HTTP_ENABLED: true
+      KC_PROXY_ADDRESS_FORWARDING: true
+      KC_HTTP_RELATIVE_PATH: auth
+      KC_HTTP_PORT: ${KEYCLOAK_PORT}
+    command: start-dev --import-realm --verbose
+    depends_on:
+      - postgres
+    volumes:
+      - keycloak_data:/opt/keycloak/data
+    #      - ./keycloak-import:/opt/keycloak/data/import
+    networks:
+      - cipher-net
+
+networks:
+  cipher-net:
+    external: false
+    name: cipher-network
+
+volumes:
+  keycloak_data:
+  postgresql_data:
